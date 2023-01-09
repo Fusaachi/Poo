@@ -127,4 +127,4 @@ echo "<p> Voici le nombre d'élèves : " . Eleve::$nombre ."</p>";
 echo $classe;
 
 
-//DEPUIS LA PROMO ACCEDER AUX INFORMATIONS DU PROFESSEUR PRINCIPAL ET LA LISTE DES ELEVES
+?>
