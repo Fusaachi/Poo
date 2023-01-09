@@ -56,7 +56,7 @@ class Eleve extends Personne
         self::$nombre++;
     }
 
-    function direBonjour()
+    function direBonjour(): void 
     {
         parent::direBonjour();
         echo "je suis né le " . $this->dateDeNaissance . "</p>";
@@ -76,7 +76,7 @@ class Professeur extends Personne
         $this->matiere = $matiere;
     }
 
-    function direBonjour()
+    function direBonjour(): void
     {
         parent::direBonjour();
         echo " , je suis votre professeur de " . $this->matiere . " " . ", si vous avez besoin de me contacter voici mon adresse e-mail " . $this->adresse_mail . " ";
@@ -87,6 +87,9 @@ class Promo
     public int $niveau;
     public string $nom;
 
+    public Professeur $profPrincipal;
+    public array $eleves;
+
     function __construct(int $niveau, string $nom)
     {
         //echo "J'ai créé une classe ! , ";
@@ -94,11 +97,20 @@ class Promo
         $this->nom = $nom;
     }
 
-    function afficher()
-    {
-        echo "<p> Voici les informations sur la classe " . $this->niveau . $this->nom . " :</p>";
+    function __toString(): string
+    {   
+        $string = "<p> Voici les informations sur la classe " . $this->niveau . $this->nom . " : <br> 
+                        Le professeur principal est Monsieur " . $this->profPrincipal->nom . " " . $this->profPrincipal->prenom  .  "<br><br>
+                        Voici la liste des eleves :<br> </p>";
+                        
+        foreach($this-> eleves as $eleve){
+            $string .= $eleve->nom. " " . $eleve->prenom . "<br> ";
+        }
+        return $string;
     }
 }
+
+
 
 $tati = new Eleve("Monkey D", "Luffy", "1995-10-02");
 $toto = new Eleve("Roronoa", "Zoro", "1995-10-02");
@@ -108,10 +120,11 @@ $classe = new Promo(5, "A");
 $tati->direBonjour();
 $tati->direBonjour();
 $professeur->direBonjour();
-$classe->afficher();
+$classe->profPrincipal = $professeur;
+$classe->eleves = [$tati, $toto];
 
 echo "<p> Voici le nombre d'élèves : " . Eleve::$nombre ."</p>";
-
+echo $classe;
 
 
 //DEPUIS LA PROMO ACCEDER AUX INFORMATIONS DU PROFESSEUR PRINCIPAL ET LA LISTE DES ELEVES
